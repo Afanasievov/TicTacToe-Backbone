@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tic-tac-toe Backbone</title>
+    <link rel="stylesheet" type="text/css" href="css/all.css">
+
+</head>
+<body>
+<div class="wrapper">
+
+    <div class="play-field"></div>
+
+    <div class="sidebar">
+        <div class="options-field">
+            <form name='settings' id="optionsForm" action="">
+                <div class="row">
+                    <label for="fieldWidth">Play-field width:</label> <input id ="fieldWidth" type="number" min="2" required value="5"/>
+                </div>
+                <div class="row">
+                    <label for="fieldHeight">Play-field height:</label> <input id ="fieldHeight" type="number" min="2" required value="8"/>
+                </div>
+                <fieldset>
+                    <legend>Version of game</legend>
+                    <div class="row">
+                        <input type="radio" name="symbol" value="X" checked> X
+                    </div>
+                    <div class="row">
+                        <input type="radio" name="symbol" value="O"> O
+                    </div>
+                    <div class="row">
+                        <input type="radio" name="symbol" value="XO"> X and O
+                    </div>
+                </fieldset>
+                <div class="row">
+                    <label for="lineWin">Number in a row for win:</label> <input id ="lineWin" type="number" min="3" required value="3"/>
+                </div>
+                <div id="error"></div>
+                <input id="new-game" type="submit" value="New game"/>
+            </form>
+        </div>
+        <div class="info-field"></div>
+    </div>
+
+</div>
+
+<script id="gameInfo" type="text/template">
+
+</script>
+
+<script src="js/jquery.js"></script>
+<script src="js/underscore.js"></script>
+<script src="js/backbone.js"></script>
+<script src="js/helpers.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

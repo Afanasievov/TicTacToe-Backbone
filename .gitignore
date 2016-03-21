@@ -1,0 +1,6 @@
+.git/
+.idea/
+
+js/backbone.js
+js/jquery.js
+js/underscore.js

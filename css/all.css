@@ -1,0 +1,58 @@
+.wrapper, .sidebar {
+    overflow: hidden;
+}
+
+.sidebar {
+    overflow: hidden;
+    float: right;
+    width: 200px;
+}
+.options-field {
+    border: 1px dashed gray;
+    border-radius: 15px;
+    padding: 10px;
+}
+input:required:invalid {
+    border: 1px solid red;
+}
+.row, fieldset{
+    margin-bottom: 15px;
+}
+#new-game {
+    display: block;
+    margin: auto;
+}
+#error {
+    text-align: center;
+    color: red;
+    font-weight: bolder;
+}
+
+.play-field {
+    overflow: hidden;
+    float: left;
+    margin: 10px;
+    text-align: center;
+}
+
+table {
+    overflow: hidden;
+    float: left;
+    border-collapse: collapse;
+}
+td{
+    width: 50px;
+    height: 50px;
+    border: 2px solid grey;
+    text-align: center;
+    font-size: 24px;
+}
+.play-field div{
+    float: left;
+    text-indent: 20px;
+    color: red;
+    font-weight: bolder;
+}
+.info-field {
+    text-align: center;
+}
