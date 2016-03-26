@@ -1,13 +1,19 @@
 # TicTacToe-Backbone
 
-A Tic-tac-toe game based on Backbone framework.
+<h2>A Tic-tac-toe game based on Backbone framework.</h2>
 
 Options of the game:
-        width of the play field,
-        height of the play field,
-        length of line for win.
+--------------------
+<ul>
+    <li>width of the play field</li>
+    <li>height of the play field</li>
+    <li>length of line for win</li>
+</ul>
 
 Versions of the game:
-        only 'X' turn,
-        only 'O' turn,
-        'X' and 'O' turn.
+---------------------
+<ul>
+    <li>only '&#9899;' turn</li>
+    <li>only '&#9898;' turn</li>
+    <li>'&#9899;' and '&#9898;' turn</li>
+</ul>
