@@ -37,12 +37,15 @@
         createArrGame: function () {
             var width = App.instances.gameOptionsModel.get('playFieldWidth');
             var height = App.instances.gameOptionsModel.get('playFieldHeight');
+            var objForTemplate = {};
 
             this.clear();
             this.counter = 0;
+
             for (var i = 0; i <  width * height; i++) {
-                this.set(i, '');
+                objForTemplate[i] = '';
             }
+            this.set(objForTemplate);
         }
     });
 
