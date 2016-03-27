@@ -31,7 +31,6 @@
 
         initialize: function () {
             App.instances.vent.on('optionsReady', this.createArrGame, this);
-
         },
 
         createArrGame: function () {
@@ -42,7 +41,7 @@
             this.clear();
             this.counter = 0;
 
-            for (var i = 0; i <  width * height; i++) {
+            for (var i = 0; i < width * height; i++) {
                 objForTemplate[i] = '';
             }
             this.set(objForTemplate);
@@ -64,11 +63,7 @@
         submit: function (e) {
             e.preventDefault();
 
-            App.instances.playFieldModel = new App.Models.PlayField();
-            App.instances.playFieldView = new App.Views.PlayField({model: App.instances.playFieldModel});
-            App.instances.infoFieldView = new App.Views.InfoField({model: App.instances.playFieldModel});
-
-            this.$el.find('#error').html = '';
+            this.$el.find('#error').html('');
             this.model.clear();
             this.model.set({playFieldWidth: +$(e.currentTarget).find('#fieldWidth').val()});
             this.model.set({playFieldHeight: +$(e.currentTarget).find('#fieldHeight').val()});
@@ -93,22 +88,28 @@
 
         initialize: function () {
             this.model.on('change', this.render, this);
+            App.instances.vent.on('optionsReady', this.activateEl, this);
+        },
+
+        activateEl: function () {
+            $(this.el).removeClass('disabled');
         },
 
         cellClick: function (event) {
             if (this.model.get(event.target.className) == '') {
                 this.model.counter++;
-                if (event.target.className) {
-                    this.model.set(event.target.className, this.getSymbol());
-                    var obj = this.model.toJSON();
-                    var lineWin = App.instances.gameOptionsModel.get('lineWin');
-                    var index = +event.target.className;
-                    var width = App.instances.gameOptionsModel.get('playFieldWidth');
-                    var height = App.instances.gameOptionsModel.get('playFieldHeight');
-                    var symbol = this.getSymbol();
+                this.model.set(event.target.className, this.getSymbol());
+                var obj = this.model.toJSON();
+                var lineWin = App.instances.gameOptionsModel.get('lineWin');
+                var index = +event.target.className;
+                var width = App.instances.gameOptionsModel.get('playFieldWidth');
+                var height = App.instances.gameOptionsModel.get('playFieldHeight');
+                var symbol = this.getSymbol();
+                var minWinLen = (App.instances.gameOptionsModel.get('symbol') == 'XO') ? 2 * lineWin - 1 : lineWin;
 
+                if (this.model.counter >= minWinLen) {
                     if (isTicWin(obj, lineWin, index, width, height, symbol)) {
-                        this.undelegateEvents();
+                        $(this.el).addClass('disabled');
                         this.renderWin(this);
                     }
                     if (this.model.counter == width * height) {
@@ -135,11 +136,11 @@
         },
         renderWin: function () {
             var plNum = (this.model.counter % 2 == 0 ) ? 2 : 1;
-            this.$el.append('<div>GAME OVER!!!<p>Player ' + plNum + ' wins!</div>');
+            this.$el.append('<div class="end-game">GAME OVER!!!<p>Player ' + plNum + ' wins!</div>');
             return this;
         },
         renderDraw: function () {
-            this.$el.append('<div>Draw!!!</div>');
+            this.$el.append('<div class="end-game">Draw!!!</div>');
             return this;
         }
     });
@@ -160,8 +161,8 @@
 
             plNum = (this.model.counter % 2 == 0) ? 1 : 2;
 
-            return ('<p>Number of <strong> X</strong>: ' + Xs +
-            '<p>Number of <strong> O</strong>: ' + Os +
+            return ('<p>Number of &#9899;: ' + Xs +
+            '<p>Number of &#9898;: ' + Os +
             '<p>Player ' + plNum + ' turn!');
         },
 
@@ -178,4 +179,8 @@
     App.instances.vent = _.extend({}, Backbone.Events);
     App.instances.gameOptionsModel = new App.Models.GameOptions();
     App.instances.gameOptionsForm = new App.Views.GameOptions({model: App.instances.gameOptionsModel});
+    App.instances.playFieldModel = new App.Models.PlayField();
+    App.instances.playFieldView = new App.Views.PlayField({model: App.instances.playFieldModel});
+    App.instances.infoFieldView = new App.Views.InfoField({model: App.instances.playFieldModel});
+
 }());
