@@ -14,8 +14,9 @@
     bottom: 0;
     right: 208px;
     left: 0;
-    padding: 25px;
-    background-color: rgba(128, 128, 128, 0.5);
+    height: 100%;
+    padding-top: 200px;
+    background-color: rgba(128, 128, 128, 0.2);
 }
 
 .options-field {
@@ -23,6 +24,11 @@
     border-radius: 15px;
     padding: 10px;
 }
+
+input[type=number] {
+    width: 2rem;
+}
+
 input:required:invalid {
     border: 1px solid red;
 }
@@ -65,9 +71,13 @@ td{
 .play-field div{
     float: left;
     text-indent: 20px;
-    color: red;
+    color: blue;
     font-weight: bolder;
 }
 .info-field {
     text-align: center;
+}
+
+.win-cell {
+    color: red;
 }

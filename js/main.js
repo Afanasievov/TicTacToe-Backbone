@@ -108,8 +108,9 @@
                 var minWinLen = (App.instances.gameOptionsModel.get('symbol') == 'XO') ? 2 * lineWin - 1 : lineWin;
 
                 if (this.model.counter >= minWinLen) {
-                    if (isTicWin(obj, lineWin, index, width, height, symbol)) {
+                    if (getWinArr(obj, lineWin, index, width, height, symbol)) {
                         $(this.el).addClass('disabled');
+                        this.markWinCombination(getWinArr(obj, lineWin, index, width, height, symbol));
                         this.renderWin(this);
                     }
                     if (this.model.counter == width * height) {
@@ -134,9 +135,19 @@
             this.$el.html(this.template(this.model.toJSON()));
             return this;
         },
+        
+        markWinCombination: function (arr) {
+            var className = '';
+            var self = this;
+            _(arr).each(function (number) {
+                className = '.' + number.toString(); 
+                self.$el.find(className).addClass('win-cell');
+            })
+        },
+        
         renderWin: function () {
             var plNum = (this.model.counter % 2 == 0 ) ? 2 : 1;
-            this.$el.append('<div class="end-game">GAME OVER!!!<p>Player ' + plNum + ' wins!</div>');
+            this.$el.prepend('<div class="end-game">GAME OVER!!!<p>Player ' + plNum + ' wins!</div>');
             return this;
         },
         renderDraw: function () {

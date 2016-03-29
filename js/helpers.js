@@ -17,7 +17,7 @@ function validateLineWin (num1, num2) {
 }
 
 // fn (obj, lineWin, index, width, height, symbol)) - check an obj{0:'', 1: '', 2: ''...} for a win
-function isTicWin (obj, lineWin, index, width, height, symbol) {
+function getWinArr (obj, lineWin, index, width, height, symbol) {
 // index - current index in the object
 // width - number of columns in the table
 // k = Math.floor(index/width) - index of the current row in the table (0 - first row)
@@ -25,6 +25,8 @@ function isTicWin (obj, lineWin, index, width, height, symbol) {
 // j - counter of moves
 // move - number of moves to a border
 // i - current index for counting
+// counterBack - steps back after win (to collect win indexes)
+// winArr - array of win indexes
 
     var sum = 0,
         k = Math.floor(index/width),
@@ -38,19 +40,39 @@ function isTicWin (obj, lineWin, index, width, height, symbol) {
     }
 
     //check element for a symbol
-    function isSymbol() {
-        if (obj[i] != symbol){
-            sum = 0;
-            return true;
-        }
-    }
+    /*function isNotSybmol() {
+        return obj[i] != symbol;
+    }*/
 
     // check row k
     //k * width - index of the obj correspondent to the first cell in row k
     i = k * width;
     for (j = 0, i; j < width; i++, j++) {
-        if (isSymbol()) continue;
-        if (isSumWin()) return true;
+        if (obj[i] != symbol){
+            if (sum < lineWin) {
+                sum = 0;
+                continue;
+            } else {
+                winArr = [];
+                i--;
+                for (counterBack = 0; counterBack < sum; counterBack++) {
+                    winArr.push(i);
+                    i--;
+                }
+                return winArr;
+            }
+            break;
+        }
+        sum++
+    }
+    if (sum >= lineWin) {
+        winArr = [];
+        i--;
+        for (counterBack = 0; counterBack < sum; counterBack++) {
+            winArr.push(i);
+            i--;
+        }
+        return winArr;
     }
     sum = 0;
 
@@ -58,8 +80,31 @@ function isTicWin (obj, lineWin, index, width, height, symbol) {
     // i - first element in column l
     i = l;
     for (i; i < height * width; i += width) {
-        if (isSymbol()) continue;
-        if (isSumWin()) return true;
+        if (obj[i] != symbol){
+            if (sum < lineWin) {
+                sum = 0;
+                continue;
+            } else {
+                winArr = [];
+                i -= width;
+                for (counterBack = 0; counterBack < sum; counterBack++) {
+                    winArr.push(i);
+                    i -= width;
+                }
+                return winArr;
+            }
+            break;
+        }
+        sum++
+    }
+    if (sum >= lineWin) {
+        winArr = [];
+        i -= width;
+        for (counterBack = 0; counterBack < sum; counterBack++) {
+            winArr.push(i);
+            i -= width;
+        }
+        return winArr;
     }
     sum = 0;
 
@@ -73,9 +118,32 @@ function isTicWin (obj, lineWin, index, width, height, symbol) {
         move = width - i -1;
         for (j = 0;; i += width + 1, j++) {
             if (j > move || j > height - 1) break;
-            if (isSymbol()) continue;
-            if (isSumWin()) return true;
+            if (obj[i] != symbol){
+                if (sum < lineWin) {
+                    sum = 0;
+                    continue;
+                } else {
+                    winArr = [];
+                    i -= width + 1;
+                    for (counterBack = 0; counterBack < sum; counterBack++) {
+                        winArr.push(i);
+                        i -= width + 1;
+                    }
+                    return winArr;
+                }
+                break;
+            }
+            sum++
         }
+    }
+    if (sum >= lineWin) {
+        winArr = [];
+        i -= width + 1;
+        for (counterBack = 0; counterBack < sum; counterBack++) {
+            winArr.push(i);
+            i -= width + 1;
+        }
+        return winArr;
     }
 
     //(under "\"-diagonal)
@@ -85,9 +153,32 @@ function isTicWin (obj, lineWin, index, width, height, symbol) {
         move = height - Math.ceil(i/width) - 1;
         for (j = 0;; i += width + 1, j++) {
             if (j > move || j > width) break;
-            if (isSymbol()) continue;
-            if (isSumWin()) return true;
+            if (obj[i] != symbol){
+                if (sum < lineWin) {
+                    sum = 0;
+                    continue;
+                } else {
+                    winArr = [];
+                    i -= width + 1;
+                    for (counterBack = 0; counterBack < sum; counterBack++) {
+                        winArr.push(i);
+                        i -= width + 1;
+                    }
+                    return winArr;
+                }
+                break;
+            }
+            sum++
         }
+    }
+    if (sum >= lineWin) {
+        winArr = [];
+        i -= width + 1;
+        for (counterBack = 0; counterBack < sum; counterBack++) {
+            winArr.push(i);
+            i -= width + 1;
+        }
+        return winArr;
     }
     sum = 0;
 
@@ -101,9 +192,32 @@ function isTicWin (obj, lineWin, index, width, height, symbol) {
         move = i;
         for (j = 0;; i += width - 1, j++) {
             if (j > move || j > height) break;
-            if (isSymbol()) continue;
-            if (isSumWin()) return true;
+            if (obj[i] != symbol){
+                if (sum < lineWin) {
+                    sum = 0;
+                    continue;
+                } else {
+                    winArr = [];
+                    i -= width - 1;
+                    for (counterBack = 0; counterBack < sum; counterBack++) {
+                        winArr.push(i);
+                        i -= width - 1;
+                    }
+                    return winArr;
+                }
+                break;
+            }
+            sum++
         }
+    }
+    if (sum >= lineWin) {
+        winArr = [];
+        i -= width - 1;
+        for (counterBack = 0; counterBack < sum; counterBack++) {
+            winArr.push(i);
+            i -= width - 1;
+        }
+        return winArr;
     }
 
     // under "/"-diagonal
@@ -113,8 +227,32 @@ function isTicWin (obj, lineWin, index, width, height, symbol) {
         move = height - Math.ceil(i/width);
         for (j = 0;; i += width - 1, j++) {
             if (j > move || j > width) break;
-            if (isSymbol()) continue;
-            if (isSumWin()) return true;
+            if (obj[i] != symbol){
+                if (sum < lineWin) {
+                    sum = 0;
+                    continue;
+                } else {
+                    winArr = [];
+                    i -= width - 1;
+                    for (counterBack = 0; counterBack < sum; counterBack++) {
+                        winArr.push(i);
+                        i -= width - 1;
+                    }
+                    return winArr;
+                }
+                break;
+            }
+            sum++
         }
     }
+    if (sum >= lineWin) {
+        winArr = [];
+        i -= width - 1;
+        for (counterBack = 0; counterBack < sum; counterBack++) {
+            winArr.push(i);
+            i -= width - 1;
+        }
+        return winArr;
+    }
+
 }
